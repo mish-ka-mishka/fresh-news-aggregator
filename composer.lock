@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c491b8531eec05ba41a11d9276a5749",
+    "content-hash": "2883bfc738bf9bad80045157b75ebb19",
     "packages": [
         {
             "name": "brick/math",
@@ -3106,6 +3106,209 @@
                 }
             ],
             "time": "2023-11-08T05:53:05+00:00"
+        },
+        {
+            "name": "saloonphp/laravel-http-sender",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saloonphp/laravel-http-sender.git",
+                "reference": "22d0ecb7e9de49b225c16e8d7e738ca1aef3094d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saloonphp/laravel-http-sender/zipball/22d0ecb7e9de49b225c16e8d7e738ca1aef3094d",
+                "reference": "22d0ecb7e9de49b225c16e8d7e738ca1aef3094d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^10.32",
+                "php": "^8.1",
+                "saloonphp/saloon": "^3.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^1.23",
+                "phpstan/phpstan": "^1.9",
+                "spatie/ray": "^1.33"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\HttpSender\\": "src/",
+                    "Saloon\\HttpSender\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Carré",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel HTTP Client Sender for Saloon v2+",
+            "homepage": "https://github.com/sammyjo20",
+            "support": {
+                "issues": "https://github.com/saloonphp/laravel-http-sender/issues",
+                "source": "https://github.com/saloonphp/laravel-http-sender/tree/v2.1.0"
+            },
+            "time": "2023-12-01T00:11:48+00:00"
+        },
+        {
+            "name": "saloonphp/laravel-plugin",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saloonphp/laravel-plugin.git",
+                "reference": "6fb2711df6e9fa51caf81748c44abbab8c4dff46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saloonphp/laravel-plugin/zipball/6fb2711df6e9fa51caf81748c44abbab8c4dff46",
+                "reference": "6fb2711df6e9fa51caf81748c44abbab8c4dff46",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^10.0",
+                "illuminate/http": "^10.0",
+                "illuminate/support": "^10.0",
+                "php": "^8.1",
+                "saloonphp/saloon": "^3.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "orchestra/testbench": "^v7.30 || ^v8.10",
+                "pestphp/pest": "^v1.23",
+                "phpstan/phpstan": "^1.9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Saloon": "Saloon\\Laravel\\Facades\\Saloon"
+                    },
+                    "providers": [
+                        "Saloon\\Laravel\\SaloonServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\Laravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Carré",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel plugin for Saloon",
+            "homepage": "https://github.com/saloonphp/laravel-plugin",
+            "keywords": [
+                "api",
+                "api-integrations",
+                "saloon",
+                "sammyjo20",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/saloonphp/laravel-plugin/issues",
+                "source": "https://github.com/saloonphp/laravel-plugin/tree/v3.1.0"
+            },
+            "time": "2023-11-11T21:02:09+00:00"
+        },
+        {
+            "name": "saloonphp/saloon",
+            "version": "v3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saloonphp/saloon.git",
+                "reference": "d84cda401660350659f1971949ec099c3641a2ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saloonphp/saloon/zipball/d84cda401660350659f1971949ec099c3641a2ec",
+                "reference": "d84cda401660350659f1971949ec099c3641a2ec",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.6",
+                "guzzlehttp/promises": "^1.5 || ^2.0",
+                "guzzlehttp/psr7": "^2.0",
+                "php": "^8.1",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0"
+            },
+            "conflict": {
+                "sammyjo20/saloon": "*"
+            },
+            "require-dev": {
+                "ext-simplexml": "*",
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "illuminate/collections": "^9.39 || ^10.0",
+                "league/flysystem": "^3.0",
+                "pestphp/pest": "^2.6",
+                "phpstan/phpstan": "^1.9",
+                "saloonphp/xml-wrangler": "^1.1",
+                "spatie/ray": "^1.33",
+                "symfony/dom-crawler": "^6.0"
+            },
+            "suggest": {
+                "illuminate/collections": "Required for the response collect() method.",
+                "symfony/dom-crawler": "Required for the response dom() method."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Carré",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Build beautiful API integrations and SDKs with Saloon",
+            "homepage": "https://github.com/saloonphp/saloon",
+            "keywords": [
+                "api",
+                "api-integrations",
+                "saloon",
+                "sammyjo20",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/saloonphp/saloon/issues",
+                "source": "https://github.com/saloonphp/saloon/tree/v3.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sammyjo20",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/sammyjo20",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2023-12-02T16:37:53+00:00"
         },
         {
             "name": "symfony/console",
