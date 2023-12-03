@@ -3,13 +3,13 @@
 namespace App\Http\Integrations\TheNewYorkTimes\Requests;
 
 use App\DTO\Article;
-use App\DTO\Articles;
 use Carbon\Carbon;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
+use Saloon\PaginationPlugin\Contracts\Paginatable;
 
-class ArticleSearchRequest extends Request
+class ArticleSearchRequest extends Request implements Paginatable
 {
     /**
      * The HTTP method of the request
@@ -24,9 +24,12 @@ class ArticleSearchRequest extends Request
         return '/search/v2/articlesearch.json';
     }
 
-    public function createDtoFromResponse(Response $response): Articles
+    /**
+     * @return Article[]
+     */
+    public function createDtoFromResponse(Response $response): array
     {
-        return new Articles($response->collect('response.docs')->map(function ($data) {
+        return array_map(function ($data) {
             return new Article(
                 title: $data['headline']['main'],
                 description: $data['abstract'],
@@ -36,6 +39,6 @@ class ArticleSearchRequest extends Request
                 author: $data['byline']['original'],
                 source: $data['source'],
             );
-        }));
+        }, $response->json('response.docs'));
     }
 }

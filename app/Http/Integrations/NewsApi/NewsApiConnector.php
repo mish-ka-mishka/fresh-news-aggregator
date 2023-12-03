@@ -3,10 +3,12 @@
 namespace App\Http\Integrations\NewsApi;
 
 use Saloon\Http\Connector;
+use Saloon\Http\Request;
+use Saloon\PaginationPlugin\Contracts\HasPagination;
 use Saloon\Traits\Plugins\AcceptsJson;
 use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 
-class NewsApiConnector extends Connector
+class NewsApiConnector extends Connector implements HasPagination
 {
     use AcceptsJson, AlwaysThrowOnErrors;
 
@@ -38,5 +40,10 @@ class NewsApiConnector extends Connector
     protected function defaultConfig(): array
     {
         return [];
+    }
+
+    public function paginate(Request $request): NewsApiPaginator
+    {
+        return new NewsApiPaginator(connector: $this, request: $request);
     }
 }

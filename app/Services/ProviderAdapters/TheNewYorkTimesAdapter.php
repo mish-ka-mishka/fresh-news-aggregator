@@ -2,9 +2,9 @@
 
 namespace App\Services\ProviderAdapters;
 
-use App\DTO\Articles;
 use App\Http\Integrations\TheNewYorkTimes\Requests\ArticleSearchRequest;
 use App\Http\Integrations\TheNewYorkTimes\TheNewYorkTimesConnector;
+use Illuminate\Support\LazyCollection;
 
 class TheNewYorkTimesAdapter extends AbstractProviderAdapter implements ProviderAdapterInterface
 {
@@ -15,12 +15,11 @@ class TheNewYorkTimesAdapter extends AbstractProviderAdapter implements Provider
         $this->connector = new TheNewYorkTimesConnector(config('news_providers.nytimes.api_key'));
     }
 
-    public function getNews(): Articles
+    public function getArticles(): LazyCollection
     {
         $request = new ArticleSearchRequest();
+        $response = $this->connector->paginate($request);
 
-        $response = $this->connector->send($request);
-
-        return self::setProvider($response->dtoOrFail());
+        return self::setProvider($response->collect());
     }
 }

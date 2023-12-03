@@ -35,6 +35,7 @@ return [
             'wired-de',
             'wirtschafts-woche',
         ],
+        'max_results' => 100, // Nullable. News API has a limit of 100 items total for dev accounts
     ],
     'theguardian' => [
         'api_key' => env('THEGUARDIAN_API_KEY'),

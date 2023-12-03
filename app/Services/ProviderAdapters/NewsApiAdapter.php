@@ -3,9 +3,9 @@
 namespace App\Services\ProviderAdapters;
 
 use App\DTO\Article;
-use App\DTO\Articles;
 use App\Http\Integrations\NewsApi\NewsApiConnector;
 use App\Http\Integrations\NewsApi\Requests\EverythingRequest;
+use Illuminate\Support\LazyCollection;
 
 class NewsApiAdapter extends AbstractProviderAdapter implements ProviderAdapterInterface
 {
@@ -16,16 +16,12 @@ class NewsApiAdapter extends AbstractProviderAdapter implements ProviderAdapterI
         $this->connector = new NewsApiConnector(config('news_providers.news_api.api_key'));
     }
 
-    public function getNews(): Articles
+    public function getArticles(): LazyCollection
     {
         $request = new EverythingRequest();
+        $response = $this->connector->paginate($request);
 
-        $response = $this->connector->send($request);
-
-        /** @var Articles $articles */
-        $articles = $response->dtoOrFail();
-
-        return self::setProvider($articles->filter(
+        return self::setProvider($response->collect()->filter(
             fn(Article $article) => $article->getTitle() !== '[Removed]' && $article->getContent() !== '[Removed]'
         ));
     }

@@ -2,12 +2,8 @@
 
 namespace App\Http\Integrations\NewsApi\Requests;
 
-use App\DTO\Article;
-use App\DTO\Articles;
-use Carbon\Carbon;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
-use Saloon\Http\Response;
 
 class SourcesRequest extends Request
 {

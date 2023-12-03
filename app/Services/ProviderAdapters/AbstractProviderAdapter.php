@@ -3,12 +3,16 @@
 namespace App\Services\ProviderAdapters;
 
 use App\DTO\Article;
-use App\DTO\Articles;
+use Illuminate\Support\LazyCollection;
 
 abstract class AbstractProviderAdapter
 {
-    protected static function setProvider(Articles $articles): Articles
+    protected static function setProvider(LazyCollection $articles): LazyCollection
     {
-        return $articles->each(fn(Article $article) => $article->setProvider(static::class));
+        return $articles->map(function(Article $article) {
+            $article->setProvider(static::class);
+
+            return $article;
+        });
     }
 }

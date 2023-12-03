@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\DTO\Articles;
 use App\Services\ProviderAdapters\ProviderAdapterInterface;
+use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use function config;
 
 class AggregatorService
@@ -20,15 +21,15 @@ class AggregatorService
         }
     }
 
-    public function getNews(): Articles
+    public function fetchNews(): void
     {
-        $articles = new Articles();
-
         foreach ($this->adapters as $adapter) {
-            $articles = $articles->merge($adapter->getNews());
-        }
+            $articles = $adapter->getArticles();
 
-        return $articles;
+            $articles->each(function ($article) {
+                echo $article->getTitle() . PHP_EOL;
+            });
+        }
     }
 
     protected static function instantiate(string $adapter): ProviderAdapterInterface

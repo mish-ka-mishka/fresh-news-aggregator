@@ -2,9 +2,9 @@
 
 namespace App\Services\ProviderAdapters;
 
-use App\DTO\Articles;
+use Illuminate\Support\LazyCollection;
 
 interface ProviderAdapterInterface
 {
-    public function getNews(): Articles;
+    public function getArticles(): LazyCollection;
 }

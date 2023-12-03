@@ -3,15 +3,14 @@
 namespace App\Http\Integrations\NewsApi\Requests;
 
 use App\DTO\Article;
-use App\DTO\Articles;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
+use Saloon\PaginationPlugin\Contracts\Paginatable;
 use function implode;
 
-class EverythingRequest extends Request
+class EverythingRequest extends Request implements Paginatable
 {
     /**
      * The HTTP method of the request
@@ -33,9 +32,12 @@ class EverythingRequest extends Request
         ];
     }
 
-    public function createDtoFromResponse(Response $response): Articles
+    /**
+     * @return Article[]
+     */
+    public function createDtoFromResponse(Response $response): array
     {
-        return new Articles($response->collect('articles')->map(function ($data) {
+        return array_map(function ($data) {
             return new Article(
                 title: $data['title'],
                 description: $data['description'],
@@ -46,6 +48,6 @@ class EverythingRequest extends Request
                 coverUrl: $data['urlToImage'],
                 source: $data['source']['name'],
             );
-        }));
+        }, $response->json('articles'));
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Services\ProviderAdapters;
 
-use App\DTO\Articles;
 use App\Http\Integrations\TheGuardian\Requests\ContentRequest;
 use App\Http\Integrations\TheGuardian\TheGuardianConnector;
+use Illuminate\Support\LazyCollection;
 
 class TheGuardianAdapter extends AbstractProviderAdapter implements ProviderAdapterInterface
 {
@@ -15,12 +15,11 @@ class TheGuardianAdapter extends AbstractProviderAdapter implements ProviderAdap
         $this->connector = new TheGuardianConnector(config('news_providers.theguardian.api_key'));
     }
 
-    public function getNews(): Articles
+    public function getArticles(): LazyCollection
     {
         $request = new ContentRequest();
+        $response = $this->connector->paginate($request);
 
-        $response = $this->connector->send($request);
-
-        return self::setProvider($response->dtoOrFail());
+        return self::setProvider($response->collect());
     }
 }
