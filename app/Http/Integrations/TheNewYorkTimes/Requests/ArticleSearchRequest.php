@@ -4,6 +4,7 @@ namespace App\Http\Integrations\TheNewYorkTimes\Requests;
 
 use App\DTO\Article;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
@@ -16,12 +17,28 @@ class ArticleSearchRequest extends Request implements Paginatable
      */
     protected Method $method = Method::GET;
 
+    public function __construct(
+        protected ?DateTimeInterface $date = null
+    ) {
+    }
+
     /**
      * The endpoint for the request
      */
     public function resolveEndpoint(): string
     {
         return '/search/v2/articlesearch.json';
+    }
+
+    public function defaultQuery(): array
+    {
+        $query = [];
+
+        if ($this->date) {
+            $query['pub_date'] = $this->date->format('Y-m-d');
+        }
+
+        return $query;
     }
 
     /**

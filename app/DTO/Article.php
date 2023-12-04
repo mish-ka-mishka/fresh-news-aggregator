@@ -69,12 +69,12 @@ class Article
         $this->publishedAt = $publishedAt;
     }
 
-    public function getAuthor(): string
+    public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    public function setAuthor(string $author): void
+    public function setAuthor(?string $author): void
     {
         $this->author = $author;
     }
@@ -89,12 +89,12 @@ class Article
         $this->coverUrl = $coverUrl;
     }
 
-    public function getSource(): string
+    public function getSource(): ?string
     {
         return $this->source;
     }
 
-    public function setSource(string $source): void
+    public function setSource(?string $source): void
     {
         $this->source = $source;
     }

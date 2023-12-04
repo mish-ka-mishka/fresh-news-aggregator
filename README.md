@@ -1,50 +1,49 @@
-# Backend Take-Home challenge
+# Fresh news aggregator
 
-Welcome to the take-home challenge for the Backend web developer position. We are
-excited to see your skills and experience in action. The challenge is to build the
-backend functionality for a news aggregator website that pulls articles from various
-sources and serves them to the frontend application.
+This news aggregator retrieves today's articles from multiple sources and delivers them through an API.
+The project is built with Laravel 10.
 
-## Requirements:
+Articles are updated every 30 minutes by a cron job (or by hand using CLI): new articles are added, existing articles 
+are updated and articles that are older than 1 day are deleted.
 
-1. Data aggregation and storage: Implement a backend system that fetches articles from
-   selected data sources (choose at least 3 from the provided list) and stores them
-   locally in a database. Ensure that the data is regularly updated from the live data sources.
-2. API endpoints: Create API endpoints for the frontend application to interact with the
-   backend. These endpoints should allow the frontend to retrieve articles based on search
-   queries, filtering criteria (date, category, source), and user preferences (selected
-   sources, categories, authors).
+## Installation
 
-## Data sources that can be used (choose at least 3)
+The project is dockerized using Laravel Sail. To build it, you need to have docker and docker-compose installed.
 
-1. NewsAPI: This is a comprehensive API that allows developers to access articles from more than 70,000 news sources,
-   including major newspapers, magazines, and blogs. The API provides access to articles in various languages and
-   categories, and it supports search and filtering.
-2. OpenNews: This API provides access to a wide range of news content from various sources, including newspapers,
-   magazines, and blogs. It allows developers to retrieve articles based on keywords, categories, and sources.
-3. NewsCred: The NewsCred API provides access to a wide range of news content from various sources, including
-   newspapers, magazines, and blogs. The API allows developers to retrieve articles based on keywords, categories, and
-   sources, as well as to search for articles by author, publication, and topic.
-4. The Guardian: This API allows developers to access articles from The Guardian newspaper, one of the most respected
-   news sources in the world. The API provides access to articles in various categories and supports search and
-   filtering. Backend Take-Home challenge 2
-5. New York Times: This API allows developers to access articles from The New York Times, one of the most respected news
-   sources in the world. The API provides access to articles in various categories and supports search and filtering.
-6. BBC News: This API allows developers to access news from BBC News, one of the most trusted news sources in the world.
-   It provides access to articles in various categories and supports search and filtering.
-7. NewsAPI.org: This API provides access to news articles from thousands of sources, including news publications, blogs,
-   and magazines. It allows developers to retrieve articles based on keywords, categories, and sources.
+You can seed the database with some fake articles by running `sail artisan db:seed ArticleSeeder`.
 
-## Challenge Guidelines
+## CLI
 
-1. The output expected from this challenge is a Backend project using PHP Laravel.
-2. Implement data fetching and storage mechanisms for the selected data sources. Ensure that the data is regularly
-   updated from the live data sources.
-3. Create API endpoints that allow the frontend application to interact with the backend and retrieve articles based on
-   search queries, filtering criteria, and user preferences.
-4. Incorporate best practices of software development, including DRY (Don't Repeat Yourself), KISS (Keep It Simple,
-   Stupid), and SOLID (Single responsibility, Open-closed, Liskov substitution, Interface segregation, Dependency
-   inversion) principles.
+You can use the CLI to sync articles with the command `sail artisan app:aggregate`.
 
-Please note that this challenge focuses exclusively on the Backend development aspect
-of the news aggregator website, and user authentication has been removed from the requirements.
+## Sources
+
+1. NewsAPI (German sources: bild, der-tagesspiegel, die-zeit, focus, gruenderszene,
+   handelsblatt, spiegel-online, t3n, wired-de, wirtschafts-woche
+2. The Guardian
+3. New York Times
+
+## Api endpoints
+
+### Articles
+
+#### Search articles
+
+`GET /api/articles`
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| page | int | Page number |
+| query | string | Search query |
+
+#### Details of an article
+
+`GET /api/articles/{id}`
+
+##### Parameters
+
+| Name | Type | Description  |
+| ---- | ---- |--------------|
+| id | string | Article uuid |

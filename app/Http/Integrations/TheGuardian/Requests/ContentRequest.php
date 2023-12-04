@@ -4,6 +4,7 @@ namespace App\Http\Integrations\TheGuardian\Requests;
 
 use App\DTO\Article;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
@@ -16,6 +17,11 @@ class ContentRequest extends Request implements Paginatable
      */
     protected Method $method = Method::GET;
 
+    public function __construct(
+        protected ?DateTimeInterface $date = null
+    ) {
+    }
+
     /**
      * The endpoint for the request
      */
@@ -26,10 +32,17 @@ class ContentRequest extends Request implements Paginatable
 
     public function defaultQuery(): array
     {
-        return [
+        $query = [
             'format' => 'json',
             'show-fields' => 'headline,body,byline,thumbnail',
         ];
+
+        if ($this->date) {
+            $query['from-date'] = $this->date->format('Y-m-d');
+            $query['to-date'] = $this->date->format('Y-m-d');
+        }
+
+        return $query;
     }
 
     /**

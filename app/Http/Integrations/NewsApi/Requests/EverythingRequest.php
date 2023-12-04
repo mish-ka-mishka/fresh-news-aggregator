@@ -4,6 +4,8 @@ namespace App\Http\Integrations\NewsApi\Requests;
 
 use App\DTO\Article;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use DateTimeInterface;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
@@ -17,6 +19,11 @@ class EverythingRequest extends Request implements Paginatable
      */
     protected Method $method = Method::GET;
 
+    public function __construct(
+        protected ?DateTimeInterface $date = null
+    ) {
+    }
+
     /**
      * The endpoint for the request
      */
@@ -27,9 +34,16 @@ class EverythingRequest extends Request implements Paginatable
 
     public function defaultQuery(): array
     {
-        return [
+        $query = [
             'sources' => implode(',', config('news_providers.news_api.sources', [])),
         ];
+
+        if ($this->date) {
+            $query['from'] = (new CarbonImmutable($this->date))->startOfDay()->format(DateTimeInterface::ATOM);
+            $query['to'] = (new CarbonImmutable($this->date))->endOfDay()->format(DateTimeInterface::ATOM);
+        }
+
+        return $query;
     }
 
     /**

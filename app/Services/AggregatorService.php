@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Article;
+use App\Repositories\ArticleRepositoryInterface;
 use App\Services\ProviderAdapters\ProviderAdapterInterface;
-use Illuminate\Support\Collection;
-use Illuminate\Support\LazyCollection;
+use Carbon\Carbon;
 use function config;
 
 class AggregatorService
@@ -12,8 +13,9 @@ class AggregatorService
     /** @var ProviderAdapterInterface[] $adapters */
     protected array $adapters;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected ArticleRepositoryInterface $articleRepository
+    ) {
         $adaptersClasses = config('news_providers.adapters', []);
 
         foreach ($adaptersClasses as $adapter) {
@@ -21,15 +23,25 @@ class AggregatorService
         }
     }
 
-    public function fetchNews(): void
+    public function fetchArticles(): void
     {
         foreach ($this->adapters as $adapter) {
-            $articles = $adapter->getArticles();
+            $articles = $adapter->getArticles(new Carbon());
 
-            $articles->each(function ($article) {
-                echo $article->getTitle() . PHP_EOL;
+            $articles->each(function ($articleDto) {
+                $article = $this->articleRepository->getByUrl($articleDto->getUrl());
+
+                if ($article === null) {
+                    $article = Article::fromDto($articleDto);
+                } else {
+                    $article->updateFromDto($articleDto);
+                }
+
+                $this->articleRepository->persist($article);
             });
         }
+
+        $this->articleRepository->deleteOldArticles(new Carbon('-1 day'));
     }
 
     protected static function instantiate(string $adapter): ProviderAdapterInterface

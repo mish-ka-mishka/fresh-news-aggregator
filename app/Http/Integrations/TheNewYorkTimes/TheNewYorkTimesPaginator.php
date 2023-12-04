@@ -13,7 +13,7 @@ class TheNewYorkTimesPaginator extends PagedPaginator
 
     protected function isLastPage(Response $response): bool
     {
-        return $this->page === $this->getTotalPages($response);
+        return $this->page >= $this->getTotalPages($response);
     }
 
     protected function getPageItems(Response $response, Request $request): array
